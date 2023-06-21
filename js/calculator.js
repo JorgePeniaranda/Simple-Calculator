@@ -1,6 +1,6 @@
 /* Buttons events */
 var inputArray = new Array();
-const equationSimbols = ["^", "÷", "×", "-", "+"];
+const equationSimbols = ["^", "÷", "×", "-", "+", ","];
 for (let i = 0; i < document.getElementsByClassName("buttonClass").length; i++) document.getElementsByClassName("buttonClass").item(i).addEventListener("click", click);
 function click(buttonValue){
     let value = buttonValue.target.innerHTML;
@@ -53,7 +53,7 @@ class calculator{
         this.result = eval(this.transcription);
     }
     getTranscription(){
-        let realSimbols = ["^", "/", "*", "-", "+"];
+        let realSimbols = ["^", "/", "*", "-", "+", "."];
         this.transcription = this.equation.split("").map(item => equationSimbols.includes(item) ? realSimbols[equationSimbols.indexOf(item)] : item).join("");
     }
 }

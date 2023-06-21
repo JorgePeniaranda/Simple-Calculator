@@ -1,12 +1,12 @@
 :root{
     /* Colors */
     --gradientBg: linear-gradient(150deg, rgba(217,70,239,1) 0%, rgba(168,85,247,1) 19%, rgba(110,42,218,1) 51%, rgba(139,92,246,1) 90%);
-    --calculatorColor: #2a2e37;
+    --calculatorColor: #bcafe642;
     --white: #e7e5e4;
-    --gray: #6b7280;
-    --buttonsBg: #333740;
-    --specialButtonBg: #364a798d;
-    --AC-Bg: #36795f8d;
+    --gray: #c5b9d2;
+    --buttonsBg: #363c49a4;
+    --specialButtonBg: #1a2c566b;
+    --AC-Bg: #327f6296;
 
     /* Values */
     --rightSpacing-num: 1.2rem;
@@ -28,6 +28,7 @@ html, body{
     width: 25vw;
     height: 80vh;
     background-color: var(--calculatorColor);
+    backdrop-filter: blur(30px);
     border-radius: .45rem;
 }
 #calculator input{
@@ -48,7 +49,6 @@ input#result{
     padding-top: var(--topSpacing-num1);
     color: var(--gray);
     font-size: 1.2rem;
-    cursor: default;
 }
 input#userInput{
     height: 30%;
@@ -80,6 +80,7 @@ input#userInput{
     width: 97%;
     height: 97%;
     background-color: var(--buttonsBg);
+    backdrop-filter: blur(30px);
     border-radius: .1rem;
     display: flex;
     align-items: center;
@@ -94,6 +95,7 @@ input#userInput{
 }
 .specialButton{
     background-color: var(--specialButtonBg);
+    backdrop-filter: blur(30px);
     font-weight: 500;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.2rem;

@@ -1,9 +1,26 @@
+/* Key events */
+document.addEventListener('keydown', (event) => {
+    let keyList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ",", "+", "-", "x", "^", "(", ")"];
+    if (keyList.includes(event.key)) {
+        click(event.key);
+    }else if (event.key === "Delete") {
+        click("AC");
+    }else if (event.key === "Backspace") {
+        click("⌫");
+    }else if (event.key === "Enter") {
+        click("=");
+    }else if (event.key === "*") {
+        click("×");
+    }else if (event.key === "/") {
+        click("÷");
+    }
+}, false);
+
 /* Buttons events */
 var inputArray = new Array();
 const equationSimbols = ["^", "÷", "×", "-", "+", ","];
-for (let i = 0; i < document.getElementsByClassName("buttonClass").length; i++) document.getElementsByClassName("buttonClass").item(i).addEventListener("click", click);
-function click(buttonValue){
-    let value = buttonValue.target.innerHTML;
+for (let i = 0; i < document.getElementsByClassName("buttonClass").length; i++) document.getElementsByClassName("buttonClass").item(i).addEventListener("click",(e) => click(e.target.innerHTML));
+function click(value){
     if (value === "AC") clearInput();
     else if (value === "⌫") {
         inputArray.pop();
@@ -15,7 +32,7 @@ function click(buttonValue){
         }else inputArray.push(value);
         changeInput(value);
     }else if (value === "=" && equationSimbols.includes(inputArray[inputArray.length - 1])) {
-        alert("nel"); // modify later
+        alert("no"); // modify later
     }else if (value === "=") {
         document.getElementById("result").value = inputArray.join("");
         document.getElementById("userInput").value = math(inputArray);
@@ -54,7 +71,19 @@ class calculator{
     }
     getTranscription(){
         let realSimbols = ["^", "/", "*", "-", "+", "."];
-        this.transcription = this.equation.split("").map(item => equationSimbols.includes(item) ? realSimbols[equationSimbols.indexOf(item)] : item).join("");
+        
+        // General symbols
+        this.transcription = this.equation.split(/(\D)/).map(item => equationSimbols.includes(item) ? realSimbols[equationSimbols.indexOf(item)] : item);
+
+        // Special symbols
+        for (let i = 0; i < this.transcription.length; i++) {
+            if (this.transcription[i] === '^') {
+                this.transcription[i-1] = 'Math.pow(' + this.transcription[i-1];
+                this.transcription[i] = ',';
+                this.transcription[i+1] = this.transcription[i+1] + ')';
+            }
+        }
+        this.transcription = this.transcription.join("");
     }
 }
 
@@ -63,29 +92,11 @@ var equationList = new Array();
 function math(input) {
     let equation = new calculator(input.join(""));
     equationList.push(equation);
-    console.log(input.join(""))
     equation.solve();
-    return equation.result;
+    return equation.result.toString().split("").map(item => item === '.' ? ',' : item).join(""); //funcion reescribir y agregar . cada 3
 }
 
-array.forEach(element => {
-    
-});
 
 
 
-/* test 
-
-
-let sadpiod = "1+23^32+1";
-sadpiod.split(/(\D)/).forEach(element => {
-    if (element == "^") {
-        sadpiod.split(/(\D)/).indexOf("^")
-    }
-})
-console.log(sadpiod);
-
-"1+23×32a+1".split(/(\D)/)
-
-"1+23×32a+1".split(/(\b)/)
-*/
+/* test */

@@ -67,7 +67,15 @@ class calculator{
     }
     solve(){
         this.getTranscription();
-        this.result = eval(this.transcription);
+
+        try {
+            this.result = eval(this.transcription);
+        } catch (e) {
+            if (e instanceof SyntaxError) {
+                console.log(e.message);
+                this.result = "Error";
+            }
+        }
     }
     getTranscription(){
         let realSimbols = ["^", "/", "*", "-", "+", "."];
@@ -88,10 +96,10 @@ class calculator{
 }
 
 /* Function and Record */
-var equationList = new Array();
+var equationHistory = new Array();
 function math(input) {
     let equation = new calculator(input.join(""));
-    equationList.push(equation);
+    equationHistory.push(equation);
     equation.solve();
     return equation.result.toString().split("").map(item => item === '.' ? ',' : item).join(""); //funcion reescribir y agregar . cada 3
 }
@@ -99,4 +107,10 @@ function math(input) {
 
 
 
-/* test */
+/* test 
+
+Array con todos los simbolos usado 
+otro array con los simbolos reescritos
+dejar resultado si apreta una operacion
+
+*/

@@ -1,25 +1,20 @@
 /* Key events */
 document.addEventListener('keydown', (event) => {
     let keyList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ",", "+", "-", "x", "^", "(", ")"];
-    if (keyList.includes(event.key)) {
-        click(event.key);
-    }else if (event.key === "Delete") {
-        click("AC");
-    }else if (event.key === "Backspace") {
-        click("⌫");
-    }else if (event.key === "Enter") {
-        click("=");
-    }else if (event.key === "*") {
-        click("×");
-    }else if (event.key === "/") {
-        click("÷");
-    }
+    if (keyList.includes(event.key)) click(event.key);
+    else if (event.key === "Delete") click("AC");
+    else if (event.key === "Backspace") click("⌫");
+    else if (event.key === "Enter") click("=");
+    else if (event.key === "*") click("×");
+    else if (event.key === "/") click("÷");
 }, false);
 
 /* Buttons events */
 var inputArray = new Array();
 const equationSimbols = ["^", "÷", "×", "-", "+", ","];
 for (let i = 0; i < document.getElementsByClassName("buttonClass").length; i++) document.getElementsByClassName("buttonClass").item(i).addEventListener("click",(e) => click(e.target.innerHTML));
+
+/* Input functions  */
 function click(value){
     if (value === "AC") clearInput();
     else if (value === "⌫") {
@@ -45,11 +40,8 @@ function click(value){
 }
 function changeInput(userInput = null){
     let input = document.getElementById("userInput");
-    if (userInput === "⌫") {
-        input.value = inputArray.join("");
-    }else{
-        input.value += userInput;
-    }
+    if (userInput === "⌫") input.value = inputArray.join("");
+    else input.value += userInput;
 }
 function clearInput() {
     document.getElementById("result").value = "";
@@ -59,11 +51,10 @@ function clearInput() {
 
 /* Class */
 class calculator{
-    equation;
-    transcription;
-    result = 0;
     constructor(equation){
         this.equation = equation;
+        this.transcription = null;
+        this.result = 0;
     }
     solve(){
         this.getTranscription();

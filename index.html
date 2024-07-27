@@ -10,76 +10,88 @@
   </head>
   <body>
     <section id="calculator">
-      <article id="inputs">
-        <input type="text" id="result" aria-label="last equation" disabled />
+      <article class="calculator__inputs-container">
+        <input
+          type="text"
+          id="input__last-equation"
+          aria-label="last equation"
+          disabled
+        />
         <input
           type="text"
           value="0"
-          id="userInput"
+          id="input__current-equation"
           aria-label="current equation"
           disabled
         />
-        <div id="dragButton"></div>
+        <div id="historyDrag"></div>
       </article>
-      <article id="buttons">
+      <article id="calculator__buttons-container">
         <!-- Column-1 -->
-        <button class="buttonClass specialButton" id="AC" aria-label="clear">
+        <button class="calculator__button special green" aria-label="clear">
           AC
         </button>
         <button
-          class="buttonClass specialButton"
+          class="calculator__button special"
           aria-label="add parenthesis symbol"
         >
           ()
         </button>
-        <button class="buttonClass specialButton" aria-label="add power symbol">
+        <button
+          class="calculator__button special"
+          aria-label="add power symbol"
+        >
           ^
         </button>
         <button
-          class="buttonClass specialButton specialButton__fontPlus"
+          class="calculator__button special large-text"
           aria-label="add plus symbol"
         >
           ÷
         </button>
 
         <!-- Column-2 -->
-        <button class="buttonClass" aria-label="add 7">7</button>
-        <button class="buttonClass" aria-label="add 8">8</button>
-        <button class="buttonClass" aria-label="add 9">9</button>
+        <button class="calculator__button" aria-label="add 7">7</button>
+        <button class="calculator__button" aria-label="add 8">8</button>
+        <button class="calculator__button" aria-label="add 9">9</button>
         <button
-          class="buttonClass specialButton specialButton__fontPlus"
+          class="calculator__button special large-text"
           aria-label="add multiply symbol"
         >
           ×
         </button>
 
         <!-- Column-3 -->
-        <button class="buttonClass" aria-label="add 4">4</button>
-        <button class="buttonClass" aria-label="add 5">5</button>
-        <button class="buttonClass" aria-label="add 6">6</button>
+        <button class="calculator__button" aria-label="add 4">4</button>
+        <button class="calculator__button" aria-label="add 5">5</button>
+        <button class="calculator__button" aria-label="add 6">6</button>
         <button
-          class="buttonClass specialButton specialButton__fontPlus"
+          class="calculator__button special large-text"
           aria-label="add minus symbol"
         >
           -
         </button>
 
         <!-- Column-4 -->
-        <button class="buttonClass" aria-label="add 1">1</button>
-        <button class="buttonClass" aria-label="add 2">2</button>
-        <button class="buttonClass" aria-label="add 3">3</button>
+        <button class="calculator__button" aria-label="add 1">1</button>
+        <button class="calculator__button" aria-label="add 2">2</button>
+        <button class="calculator__button" aria-label="add 3">3</button>
         <button
-          class="buttonClass specialButton specialButton__fontPlus"
+          class="calculator__button special large-text"
           aria-label="add plus symbol"
         >
           +
         </button>
 
         <!-- Column-5 -->
-        <button class="buttonClass" aria-label="add decimal symbol">,</button>
-        <button class="buttonClass">0</button>
-        <button class="buttonClass" aria-label="remove last char">⌫</button>
-        <button class="buttonClass specialButton" aria-label="solve equation">
+        <button class="calculator__button" aria-label="add decimal symbol">
+          ,
+        </button>
+        <button class="calculator__button">0</button>
+        <button class="calculator__button" aria-label="remove last char">
+          ⌫
+        </button>
+        <button class="calculator__button special" aria-label="solve equation">
           =
         </button>
       </article>

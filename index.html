@@ -12,57 +12,77 @@
   <body>
     <section id="calculator">
       <article id="inputs">
-        <input type="text" id="result" disabled />
-        <input type="text" value="0" id="userInput" disabled />
+        <input type="text" id="result" aria-label="last equation" disabled />
+        <input
+          type="text"
+          value="0"
+          id="userInput"
+          aria-label="current equation"
+          disabled
+        />
         <div id="dragButton"></div>
       </article>
       <article id="buttons">
         <!-- Column-1 -->
-        <button class="buttonClass specialButton" id="AC">AC</button>
-        <button class="buttonClass specialButton">()</button>
-        <button class="buttonClass specialButton">^</button>
+        <button class="buttonClass specialButton" id="AC" aria-label="clear">
+          AC
+        </button>
+        <button
+          class="buttonClass specialButton"
+          aria-label="add parenthesis symbol"
+        >
+          ()
+        </button>
+        <button class="buttonClass specialButton" aria-label="add power symbol">
+          ^
+        </button>
         <button
           class="buttonClass specialButton specialButton__fontPlus"
-          id="divide"
+          aria-label="add plus symbol"
         >
           ÷
         </button>
 
         <!-- Column-2 -->
-        <button class="buttonClass">7</button>
-        <button class="buttonClass">8</button>
-        <button class="buttonClass">9</button>
+        <button class="buttonClass" aria-label="add 7">7</button>
+        <button class="buttonClass" aria-label="add 8">8</button>
+        <button class="buttonClass" aria-label="add 9">9</button>
         <button
           class="buttonClass specialButton specialButton__fontPlus"
-          id="x"
+          aria-label="add multiply symbol"
         >
           ×
         </button>
 
         <!-- Column-3 -->
-        <button class="buttonClass">4</button>
-        <button class="buttonClass">5</button>
-        <button class="buttonClass">6</button>
+        <button class="buttonClass" aria-label="add 4">4</button>
+        <button class="buttonClass" aria-label="add 5">5</button>
+        <button class="buttonClass" aria-label="add 6">6</button>
         <button
           class="buttonClass specialButton specialButton__fontPlus"
-          id="minus"
+          aria-label="add minus symbol"
         >
           -
         </button>
 
         <!-- Column-4 -->
-        <button class="buttonClass">1</button>
-        <button class="buttonClass">2</button>
-        <button class="buttonClass">3</button>
-        <button class="buttonClass specialButton specialButton__fontPlus">
+        <button class="buttonClass" aria-label="add 1">1</button>
+        <button class="buttonClass" aria-label="add 2">2</button>
+        <button class="buttonClass" aria-label="add 3">3</button>
+        <button
+          class="buttonClass specialButton specialButton__fontPlus"
+          aria-label="add plus symbol"
+        >
           +
         </button>
 
         <!-- Column-5 -->
-        <button class="buttonClass">,</button>
+        <button class="buttonClass" aria-label="add decimal symbol">,</button>
         <button class="buttonClass">0</button>
-        <button class="buttonClass">⌫</button>
-        <button class="buttonClass specialButton">=</button>
+        <button class="buttonClass" aria-label="remove last char">⌫</button>
+        <button class="buttonClass specialButton" aria-label="solve equation">
+          =
+        </button>
       </article>
       <!-- <div id="extraMenu"></div> -->
     </section>

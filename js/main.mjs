@@ -23,26 +23,39 @@ const inputResultHandler = new InputHandler($inputResult, false);
 
 $buttons.forEach((button) => {
   button.addEventListener("click", (button) => {
-    let calculatorAction = INPUT_DICTIONARY[button.target.textContent]
+    const calculatorAction = INPUT_DICTIONARY[button.target.textContent]
 
     // Handle solve action (=)
     if(calculatorAction === CALCULATOR_ACTIONS.solve){
-      history.addEquation(calculator.equation, calculator.solve());
-      inputResultHandler.changeInput(fromCalculatorToInputText(calculator.equation));
-      inputUserHandler.changeInput(fromCalculatorToInputText(calculator.result));
+      const prevEquation = calculator.equation;
+
+      // Solve equation
+      calculator.solve();
+
+      // Add equation to history
+      history.addEquation(calculator.equation);
+
+      // Update inputs
+      inputResultHandler.changeInput(fromCalculatorToInputText(prevEquation));
+      inputUserHandler.changeInput(calculator.result);
+
       return;
     }
     
     // Handle clear action (AC)
     if(calculatorAction === CALCULATOR_ACTIONS.clear){
+      // Clear calculator
       calculator.clearAll();
+
+      // Update inputs
       inputUserHandler.changeInput("");
       inputResultHandler.changeInput("");
+
       return;
     }
 
     // Handle other actions
-    let action = generateCalculatorAction(
+    const action = generateCalculatorAction(
       calculator,
       calculatorAction, 
       CALCULATOR_DICTIONARY[calculatorAction]

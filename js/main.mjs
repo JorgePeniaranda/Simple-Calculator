@@ -18,8 +18,8 @@ const $inputUser = document.getElementById("userInput");
 const $inputResult = document.getElementById("result");
 
 // Handlers
-const inputUserHandler = new InputHandler($inputUser, false);
-const inputResultHandler = new InputHandler($inputResult, false);
+const lastInputHandler = new InputHandler($inputUser, false);
+const currentInputHandler = new InputHandler($inputResult, false);
 
 $buttons.forEach((button) => {
   button.addEventListener("click", (button) => {
@@ -36,8 +36,8 @@ $buttons.forEach((button) => {
       history.addEquation(calculator.equation);
 
       // Update inputs
-      inputResultHandler.changeInput(fromCalculatorToInputText(prevEquation));
-      inputUserHandler.changeInput(calculator.result);
+      currentInputHandler.changeInput(fromCalculatorToInputText(prevEquation));
+      lastInputHandler.changeInput(calculator.result);
 
       return;
     }
@@ -48,8 +48,8 @@ $buttons.forEach((button) => {
       calculator.clearAll();
 
       // Update inputs
-      inputUserHandler.changeInput("");
-      inputResultHandler.changeInput("");
+      lastInputHandler.changeInput("");
+      currentInputHandler.changeInput("");
 
       return;
     }
@@ -66,6 +66,6 @@ $buttons.forEach((button) => {
     }
     
     action();
-    inputUserHandler.changeInput(fromCalculatorToInputText(calculator.equation));
+    lastInputHandler.changeInput(fromCalculatorToInputText(calculator.equation));
   });
 });

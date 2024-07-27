@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="./style/style.css" />
     <link rel="icon" href="assets/favicon.png" />
     <title>SIMPLE CALCULATOR</title>
-    <script src="js/main.js"></script>
   </head>
   <body>
     <div id="calculator">
@@ -22,19 +21,29 @@
         <span class="buttonClass specialButton" id="AC">AC</span>
         <span class="buttonClass specialButton">()</span>
         <span class="buttonClass specialButton">^</span>
-        <span class="buttonClass specialButton specialButton__fontPlus">÷</span>
+        <span
+          class="buttonClass specialButton specialButton__fontPlus"
+          id="divide"
+          >÷</span
+        >
 
         <!-- Colum2 -->
         <span class="buttonClass">7</span>
         <span class="buttonClass">8</span>
         <span class="buttonClass">9</span>
-        <span class="buttonClass specialButton specialButton__fontPlus">×</span>
+        <span class="buttonClass specialButton specialButton__fontPlus" id="x"
+          >×</span
+        >
 
         <!-- Colum3 -->
         <span class="buttonClass">4</span>
         <span class="buttonClass">5</span>
         <span class="buttonClass">6</span>
-        <span class="buttonClass specialButton specialButton__fontPlus">-</span>
+        <span
+          class="buttonClass specialButton specialButton__fontPlus"
+          id="minus"
+          >-</span
+        >
 
         <!-- Colum4 -->
         <span class="buttonClass">1</span>
@@ -50,5 +59,6 @@
       </div>
       <!-- <div id="extraMenu"></div> -->
     </div>
+    <script src="js/main.mjs" type="module"></script>
   </body>
 </html>

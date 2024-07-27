@@ -64,7 +64,7 @@ export class Calculator{
    * Add parenthesis to equation
    * @returns {void}
    */
-  addParenthesis(){ // TO-DO
+  addParenthesis(){
     const lastChar = this.#equation[this.#equation.length - 1];
 
     if(lastChar === CALCULATOR_DICTIONARY.decimal){

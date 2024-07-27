@@ -1,3 +1,4 @@
+import { CALCULATOR_ACTIONS_REQUIRE_PARSEINT } from "../constants/calculator-actions-metadata.mjs";
 import { InternalError } from "../errors/calculator-errors.mjs";
 import { fromInputToCalculatorAction } from "../mappers/fromInputToCalculatorAction.mjs";
 
@@ -10,18 +11,26 @@ import { fromInputToCalculatorAction } from "../mappers/fromInputToCalculatorAct
  */
 export function generateCalculatorAction(calculator, action, value) {
   const actionKey = fromInputToCalculatorAction[action]
-  let needParametters = false;
-  let needToParseInt = false;
-
+  let needParametters = calculator[actionKey].length > 0;
+  
   if(actionKey === undefined){
     throw new InternalError('Action is not found in key dictionary');
   }
-
-  if(actionKey === 'addSymbol' || actionKey === 'addNumber'){
-    needParametters = true;
+  
+  if(calculator[actionKey] === undefined){
+    throw new InternalError('Action is not found in calculator instance');
   }
 
-  if(actionKey === 'addNumber'){
+  if(calculator[actionKey].length === 1 && value === undefined){
+    throw new InternalError('Action need a value');
+  }
+
+  if(calculator[actionKey].length > 1){
+    throw new InternalError('Action need two value, but only one can be provided automatically');
+  }
+  let needToParseInt = false;
+
+  if(CALCULATOR_ACTIONS_REQUIRE_PARSEINT.includes(actionKey)){
     needToParseInt = true;
   }
 
@@ -33,11 +42,11 @@ export function generateCalculatorAction(calculator, action, value) {
 
   
   return () => {
-    if(calculator[actionKey] === undefined){
-      throw new InternalError('Action is not found in calculator instance');
-    }
+    if(needToParseInt && needParametters){
+      if(isNaN(parseInt(value))){
+        throw new InternalError('Value is not a number');
+      }
 
-    if(needToParseInt && !isNaN(parseInt(value)) && needParametters){
       calculator[actionKey](parseInt(value));
     } else if(needParametters){
       calculator[actionKey](value);

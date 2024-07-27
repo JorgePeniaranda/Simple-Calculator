@@ -10,55 +10,62 @@
     <title>SIMPLE CALCULATOR</title>
   </head>
   <body>
-    <div id="calculator">
-      <div id="inputs">
+    <section id="calculator">
+      <article id="inputs">
         <input type="text" id="result" disabled />
         <input type="text" value="0" id="userInput" disabled />
         <div id="dragButton"></div>
-      </div>
-      <div id="buttons">
-        <!-- Colum1 -->
-        <span class="buttonClass specialButton" id="AC">AC</span>
-        <span class="buttonClass specialButton">()</span>
-        <span class="buttonClass specialButton">^</span>
-        <span
+      </article>
+      <article id="buttons">
+        <!-- Column-1 -->
+        <button class="buttonClass specialButton" id="AC">AC</button>
+        <button class="buttonClass specialButton">()</button>
+        <button class="buttonClass specialButton">^</button>
+        <button
           class="buttonClass specialButton specialButton__fontPlus"
           id="divide"
-          >÷</span
         >
+          ÷
+        </button>
 
-        <!-- Colum2 -->
-        <span class="buttonClass">7</span>
-        <span class="buttonClass">8</span>
-        <span class="buttonClass">9</span>
-        <span class="buttonClass specialButton specialButton__fontPlus" id="x"
-          >×</span
+        <!-- Column-2 -->
+        <button class="buttonClass">7</button>
+        <button class="buttonClass">8</button>
+        <button class="buttonClass">9</button>
+        <button
+          class="buttonClass specialButton specialButton__fontPlus"
+          id="x"
         >
+          ×
+        </button>
 
-        <!-- Colum3 -->
-        <span class="buttonClass">4</span>
-        <span class="buttonClass">5</span>
-        <span class="buttonClass">6</span>
-        <span
+        <!-- Column-3 -->
+        <button class="buttonClass">4</button>
+        <button class="buttonClass">5</button>
+        <button class="buttonClass">6</button>
+        <button
           class="buttonClass specialButton specialButton__fontPlus"
           id="minus"
-          >-</span
         >
+          -
+        </button>
 
-        <!-- Colum4 -->
-        <span class="buttonClass">1</span>
-        <span class="buttonClass">2</span>
-        <span class="buttonClass">3</span>
-        <span class="buttonClass specialButton specialButton__fontPlus">+</span>
+        <!-- Column-4 -->
+        <button class="buttonClass">1</button>
+        <button class="buttonClass">2</button>
+        <button class="buttonClass">3</button>
+        <button class="buttonClass specialButton specialButton__fontPlus">
+          +
+        </button>
 
-        <!-- Colum5 -->
-        <span class="buttonClass">,</span>
-        <span class="buttonClass">0</span>
-        <span class="buttonClass">⌫</span>
-        <span class="buttonClass specialButton">=</span>
-      </div>
+        <!-- Column-5 -->
+        <button class="buttonClass">,</button>
+        <button class="buttonClass">0</button>
+        <button class="buttonClass">⌫</button>
+        <button class="buttonClass specialButton">=</button>
+      </article>
       <!-- <div id="extraMenu"></div> -->
-    </div>
+    </section>
     <script src="js/main.mjs" type="module"></script>
   </body>
 </html>

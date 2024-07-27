@@ -141,7 +141,7 @@ export class Calculator{
    */
   addDecimal(){
     if(this.#isLastCharSymbol() || this.#equation === ''){
-      throw new ErrorOnTryToInput('Cannot add symbol, last character is a symbol or empty');
+      throw new ErrorOnTryToInput('Cannot add decimal, last character is a symbol or empty');
     }
 
     this.#equation += CALCULATOR_DICTIONARY.decimal;

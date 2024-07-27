@@ -24,7 +24,7 @@ export class Calculator{
    * @returns {boolean}
    */
   #isLastCharSymbol(){
-    let equationLastChar = this.#equation[this.#equation.length - 1];
+    const equationLastChar = this.#equation[this.#equation.length - 1];
 
     if(this.#equation === ''){
       return true;
@@ -65,7 +65,7 @@ export class Calculator{
    * @returns {void}
    */
   addParenthesis(){ // TO-DO
-    let lastChar = this.#equation[this.#equation.length - 1];
+    const lastChar = this.#equation[this.#equation.length - 1];
 
     if(lastChar === CALCULATOR_DICTIONARY.decimal){
       throw new ErrorOnTryToInput('Cannot add symbol, last character is a decimal');
@@ -113,8 +113,8 @@ export class Calculator{
       return;
     }
 
-    let allInZero = this.#equation.split('').every((char) => char === '0');
-    if(number === 0 && (this.#equation === '' || allInZero)){
+    const validateZeroEquation = this.#equation.split('').every((char) => char === '0');
+    if(number === 0 && (this.#equation === '' || validateZeroEquation)){
       return;
     }
     

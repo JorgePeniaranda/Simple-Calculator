@@ -31,7 +31,7 @@ export class InputHandler {
    * @returns {void}
    */
   changeInput(newText) {
-    let isValidText = this.#isValidText(newText);
+    const isValidText = this.#isValidText(newText);
 
     if (!isValidText && this.#isNumberInput) {
       throw new ErrorOnTryToShow(`Cannot change input, invalid text. Maybe you passed a string instead of a number`);

@@ -9,7 +9,7 @@ import { fromInputToCalculatorAction } from "../mappers/fromInputToCalculatorAct
  * @returns {Function}
  */
 export function generateCalculatorAction(calculator, action, value) {
-  let actionKey = fromInputToCalculatorAction[action]
+  const actionKey = fromInputToCalculatorAction[action]
   let needParametters = false;
   let needToParseInt = false;
 

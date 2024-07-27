@@ -18,8 +18,11 @@ const transcriptions = {
   '8': '8',
   '9': '9',
   '(': '(',
+  '*(': '(',
   ')': ')',
+  ')*': ')',
   '**': '^',
+  '^': '^',
 };
 
 /**
@@ -28,7 +31,12 @@ const transcriptions = {
  * @returns {string}
  */
 export function fromCalculatorToInputText (equation) {
-  let result = equation.replace("**", '^'); // Replace ** with ^
+  let result = equation; 
+
+  // Replace symbols with double symbols
+  result = result.replace("**", '^'); // Replace ** with ^
+  result = result.replace("*(", '('); // Replace *( with (
+  result = result.replace(")*", ')'); // Replace )* with )
 
   return result.replace(/./g, (char) => {
     if(transcriptions[char] === undefined){

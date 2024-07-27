@@ -76,6 +76,12 @@ export class Calculator{
       return;
     }
 
+    if(lastChar === CALCULATOR_DICTIONARY.closeParenthesis){
+      this.#equation += CALCULATOR_DICTIONARY.multiply;
+      this.#equation += CALCULATOR_DICTIONARY.openParenthesis;
+      return;
+    }
+
     let openParenthesisCound = 0;
     let closeParenthesisCount = 0;
 
@@ -89,12 +95,20 @@ export class Calculator{
       }
     }
 
+    if(Number.isInteger(parseInt(lastChar)) && openParenthesisCound === closeParenthesisCount){
+      this.#equation += CALCULATOR_DICTIONARY.multiply;
+      this.#equation += CALCULATOR_DICTIONARY.openParenthesis;
+      return;
+    }
+
     if(openParenthesisCound === closeParenthesisCount){
       this.#equation += CALCULATOR_DICTIONARY.openParenthesis;
+      return;
     }
 
     if(openParenthesisCound > closeParenthesisCount){
       this.#equation += CALCULATOR_DICTIONARY.closeParenthesis;
+      return;
     }
   }
 

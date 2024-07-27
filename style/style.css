@@ -107,6 +107,7 @@ input#input__current-equation {
   width: 97%;
   height: 97%;
   background-color: var(--buttonsBg);
+  border: none;
   border-radius: 0.1rem;
   display: flex;
   align-items: center;

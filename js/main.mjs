@@ -23,7 +23,12 @@ const currentInputHandler = new InputHandler($inputResult, false);
 
 $buttons.forEach((button) => {
   button.addEventListener("click", (button) => {
-    const calculatorAction = INPUT_DICTIONARY[button.target.textContent]
+    if(typeof button.target.textContent !== 'string'){
+      throw new InternalError('Button text content is not a string');
+    }
+
+    const buttonValue = button.target.textContent.trim();
+    const calculatorAction = INPUT_DICTIONARY[buttonValue]
 
     // Handle solve action (=)
     if(calculatorAction === CALCULATOR_ACTIONS.solve){

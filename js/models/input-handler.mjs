@@ -1,4 +1,4 @@
-import { ErrorOnTryToShow } from "../errors/calculator-errors.mjs";
+import { ErrorOnTryToShow, InternalError } from "../errors/calculator-errors.mjs";
 
 export class InputHandler {
   #input;
@@ -9,6 +9,10 @@ export class InputHandler {
    * @param {boolean} isNumber
    */
   constructor(input, isNumberInput = false) {
+    if (!(input instanceof HTMLElement)) {
+      throw new InternalError(`Cannot create InputHandler, invalid input`);
+    }
+
     this.#input = input;
     this.#isNumberInput = isNumberInput
   }

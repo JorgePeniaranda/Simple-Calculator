@@ -2,6 +2,7 @@ import { CALCULATOR_ACTIONS } from "./data/calculator-actions.mjs";
 import { CALCULATOR_DICTIONARY } from "./data/calculator-dictionary.mjs";
 import { INPUT_DICTIONARY } from "./data/input-dictionary.mjs";
 import { InternalError } from "./errors/calculator-errors.mjs";
+import { isEmpty } from "./helpers/isEmpty.mjs";
 import { generateCalculatorAction } from "./helpers/getCalculatorAction.mjs";
 import { fromCalculatorToInputText } from "./mappers/fromEquationToInputText.mjs";
 import { CalculatorHistory } from "./models/calculator-history.mjs";
@@ -22,12 +23,18 @@ const lastInputHandler = new InputHandler($lastInput, false);
 const currentInputHandler = new InputHandler($currentInput, false);
 
 $buttons.forEach((button) => {
+  if(!(button instanceof HTMLElement)){
+    throw new InternalError('Button is not an HTMLElement');
+  }
+
   button.addEventListener("click", (button) => {
-    if(typeof button.target.textContent !== 'string'){
+    const textButton = button.target.textContent;
+
+    if(typeof textButton !== 'string'){
       throw new InternalError('Button text content is not a string');
     }
 
-    const buttonValue = button.target.textContent.trim();
+    const buttonValue = textButton.trim();
     const calculatorAction = INPUT_DICTIONARY[buttonValue]
 
     // Handle solve action (=)
@@ -66,7 +73,7 @@ $buttons.forEach((button) => {
       CALCULATOR_DICTIONARY[calculatorAction]
     );
 
-    if(action === undefined || typeof action !== 'function'){
+    if(isEmpty(action) || typeof action !== 'function'){
       throw new InternalError('Generated action is not a function');
     }
     

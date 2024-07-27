@@ -1,4 +1,5 @@
 import { InternalError } from "../errors/calculator-errors.mjs";
+import { isEmpty } from "../helpers/isEmpty.mjs";
 
 const transcriptions = {
   '+': '+',
@@ -31,6 +32,10 @@ const transcriptions = {
  * @returns {string}
  */
 export function fromCalculatorToInputText (equation) {
+  if(typeof equation !== 'string'){
+    throw new InternalError('Equation is not a string');
+  }
+
   let result = equation; 
 
   // Replace symbols with double symbols
@@ -39,7 +44,7 @@ export function fromCalculatorToInputText (equation) {
   result = result.replace(")*", ')'); // Replace )* with )
 
   return result.replace(/./g, (char) => {
-    if(transcriptions[char] === undefined){
+    if(isEmpty(transcriptions[char])){
       throw new InternalError('Character not found in transcriptions');
     }
 

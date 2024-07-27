@@ -19,6 +19,10 @@ export class CalculatorHistory{
    * @returns {void}
    */
   addEquation(equation){
+    if(typeof equation !== 'string'){
+      throw new InternalError('Equation is not a string');
+    }
+
     this.#history.push(equation);
   }
 

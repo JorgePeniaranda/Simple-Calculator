@@ -140,8 +140,12 @@ export class Calculator{
    * @returns {void}
    */
   addDecimal(){
-    if(this.#isLastCharSymbol() || this.#equation === ''){
-      throw new ErrorOnTryToInput('Cannot add decimal, last character is a symbol or empty');
+    if(this.#isLastCharSymbol()){
+      if(this.#equation === ''){
+        throw new ErrorOnTryToInput('Cannot add decimal to empty equation');
+      }
+      
+      throw new ErrorOnTryToInput('Cannot add decimal, last character is a symbol');
     }
 
     this.#equation += CALCULATOR_DICTIONARY.decimal;

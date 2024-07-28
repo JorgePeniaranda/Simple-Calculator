@@ -8,6 +8,8 @@ import { fromCalculatorToInputText } from "./mappers/fromEquationToInputText.mjs
 import { CalculatorHistory } from "./models/calculator-history.mjs";
 import { Calculator } from "./models/calculator.mjs";
 import { InputHandler } from "./models/input-handler.mjs";
+import { ShowErrorInNotification } from "./errors/handler.mjs";
+import { NotificationService } from "./services/notifications.mjs";
 
 // Instances
 const calculator = new Calculator();
@@ -28,56 +30,60 @@ $buttons.forEach((button) => {
   }
 
   button.addEventListener("click", (button) => {
-    const textButton = button.target.textContent;
+    try {
+      const textButton = button.target.textContent;
 
-    if(typeof textButton !== 'string'){
-      throw new InternalError('Button text content is not a string');
+      if(typeof textButton !== 'string'){
+        throw new InternalError('Button text content is not a string');
+      }
+
+      const buttonValue = textButton.trim();
+      const calculatorAction = INPUT_DICTIONARY[buttonValue]
+
+      // Handle solve action (=)
+      if(calculatorAction === CALCULATOR_ACTIONS.solve){
+        const prevEquation = calculator.equation;
+
+        // Solve equation
+        calculator.solve();
+
+        // Add equation to history
+        history.addEquation(calculator.equation);
+
+        // Update inputs
+        lastInputHandler.changeInput(fromCalculatorToInputText(prevEquation));
+        currentInputHandler.changeInput(calculator.result);
+
+        return;
+      }
+      
+      // Handle clear action (AC)
+      if(calculatorAction === CALCULATOR_ACTIONS.clear){
+        // Clear calculator
+        calculator.clearAll();
+
+        // Update inputs
+        currentInputHandler.changeInput("");
+        lastInputHandler.changeInput("");
+
+        return;
+      }
+
+      // Handle other actions
+      const action = generateCalculatorAction(
+        calculator,
+        calculatorAction, 
+        CALCULATOR_DICTIONARY[calculatorAction]
+      );
+
+      if(isEmpty(action) || typeof action !== 'function'){
+        throw new InternalError('Generated action is not a function');
+      }
+      
+      action();
+      currentInputHandler.changeInput(fromCalculatorToInputText(calculator.equation));
+    } catch (error) {
+      ShowErrorInNotification(error, NotificationService);
     }
-
-    const buttonValue = textButton.trim();
-    const calculatorAction = INPUT_DICTIONARY[buttonValue]
-
-    // Handle solve action (=)
-    if(calculatorAction === CALCULATOR_ACTIONS.solve){
-      const prevEquation = calculator.equation;
-
-      // Solve equation
-      calculator.solve();
-
-      // Add equation to history
-      history.addEquation(calculator.equation);
-
-      // Update inputs
-      lastInputHandler.changeInput(fromCalculatorToInputText(prevEquation));
-      currentInputHandler.changeInput(calculator.result);
-
-      return;
-    }
-    
-    // Handle clear action (AC)
-    if(calculatorAction === CALCULATOR_ACTIONS.clear){
-      // Clear calculator
-      calculator.clearAll();
-
-      // Update inputs
-      currentInputHandler.changeInput("");
-      lastInputHandler.changeInput("");
-
-      return;
-    }
-
-    // Handle other actions
-    const action = generateCalculatorAction(
-      calculator,
-      calculatorAction, 
-      CALCULATOR_DICTIONARY[calculatorAction]
-    );
-
-    if(isEmpty(action) || typeof action !== 'function'){
-      throw new InternalError('Generated action is not a function');
-    }
-    
-    action();
-    currentInputHandler.changeInput(fromCalculatorToInputText(calculator.equation));
   });
 });

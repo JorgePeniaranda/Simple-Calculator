@@ -1,4 +1,4 @@
-import { CALCULATOR_ACTIONS_REQUIRE_PARSEINT } from "../constants/calculator-actions-metadata.mjs";
+import { CALCULATOR_ACTIONS_REQUIRE_PARSEINT } from "../constants/calculator-metadata.mjs";
 import { InternalError } from "../errors/calculator-errors.mjs";
 import { fromInputToCalculatorAction } from "../mappers/fromInputToCalculatorAction.mjs";
 import { isEmpty } from "./isEmpty.mjs";

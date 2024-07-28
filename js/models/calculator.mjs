@@ -1,3 +1,4 @@
+import { CALCULATOR_OPERATIONS_WITH_DOUBLE_CHAR } from "../constants/calculator-metadata.mjs";
 import { CALCULATOR_DICTIONARY } from "../data/calculator-dictionary.mjs";
 import { EQUATIONS_SYMBOLS } from "../data/equations-symbols.mjs";
 import { ErrorOnTryToInput, ErrorOnTryToSolve } from "../errors/calculator-errors.mjs";
@@ -45,15 +46,21 @@ export class Calculator{
    * @example addSymbol('+'), addSymbol('-'), addSymbol('*'), addSymbol('/'), addSymbol('**')
    */
   addSymbol(symbol){
+    const lastChar = this.#equation[this.#equation.length - 1];
+
     if(!EQUATIONS_SYMBOLS.includes(symbol)){
       throw new ErrorOnTryToInput('Cannot add symbol, symbol is not in the allowed symbols');
+    }
+
+    if(lastChar === CALCULATOR_DICTIONARY.openParenthesis){
+      throw new ErrorOnTryToInput('Cannot add symbol, last character is an open parenthesis');
     }
 
     if(this.equation === ''){
       return;
     }
 
-    if(this.#isLastCharSymbol()){
+    if(this.#isLastCharSymbol() && lastChar !== CALCULATOR_DICTIONARY.closeParenthesis){
       this.removeLastCharacter()
     }
 
@@ -160,7 +167,7 @@ export class Calculator{
       throw new ErrorOnTryToInput('Cannot remove last character from empty equation');
     }
 
-    if (this.#equation.slice(-2) === CALCULATOR_DICTIONARY.power) { // If the last two characters are **
+    if (CALCULATOR_OPERATIONS_WITH_DOUBLE_CHAR.includes(this.#equation.slice(-2))) { // If the last two characters are **
       this.#equation = this.#equation.slice(0, this.#equation.length - 2);
       return;
     }

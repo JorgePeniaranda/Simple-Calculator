@@ -33,4 +33,12 @@ export class CalculatorHistory{
   clearHistory(){
     this.#history = [];
   }
+
+  /**
+   * Get last equation from history
+   * @returns {string}
+   */
+  getLastEquation(){
+    return this.#history?.[this.#history.length - 1];
+  }
 }

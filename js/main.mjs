@@ -1,7 +1,7 @@
 import { CALCULATOR_ACTIONS } from "./data/calculator-actions.mjs";
 import { CALCULATOR_DICTIONARY } from "./data/calculator-dictionary.mjs";
 import { INPUT_DICTIONARY } from "./data/input-dictionary.mjs";
-import { InternalError } from "./errors/calculator-errors.mjs";
+import { ErrorOnTryToSolve, InternalError } from "./errors/calculator-errors.mjs";
 import { isEmpty } from "./helpers/isEmpty.mjs";
 import { generateCalculatorAction } from "./helpers/getCalculatorAction.mjs";
 import { fromCalculatorToInputText } from "./mappers/fromEquationToInputText.mjs";
@@ -49,11 +49,10 @@ $buttons.forEach((button) => {
         calculator.solve();
 
         // Add equation to history
-        history.addEquation(calculator.equation);
+        history.addEquation(prevEquation);
 
         // Update inputs
-        lastInputHandler.changeInput(fromCalculatorToInputText(prevEquation));
-        currentInputHandler.changeInput(calculator.result);
+        UpdateInputs();
 
         return;
       }
@@ -64,8 +63,7 @@ $buttons.forEach((button) => {
         calculator.clearAll();
 
         // Update inputs
-        currentInputHandler.changeInput("");
-        lastInputHandler.changeInput("");
+        UpdateInputs("", "");
 
         return;
       }
@@ -84,7 +82,29 @@ $buttons.forEach((button) => {
       action();
       currentInputHandler.changeInput(fromCalculatorToInputText(calculator.equation));
     } catch (error) {
-      ShowErrorInNotification(error, NotificationService);
+      if(error instanceof ErrorOnTryToSolve){
+        calculator.clearAll();
+        UpdateInputs("Error", "");
+      }
+      else {
+        ShowErrorInNotification(error, NotificationService);
+      }
     }
   });
 });
+
+function UpdateInputs(currentValue, lastValue){
+  const currentText = currentValue ?? String(calculator.result);
+  const lastText = lastValue ?? history.getLastEquation();
+
+  if(typeof lastText !== 'string'){
+    throw new InternalError('Last text is not a string');
+  }
+
+  if(typeof currentText !== 'string'){
+    throw new InternalError('Current text is not a string');
+  }
+
+  currentInputHandler.changeInput(fromCalculatorToInputText(currentText));
+  lastInputHandler.changeInput(fromCalculatorToInputText(lastText));
+}

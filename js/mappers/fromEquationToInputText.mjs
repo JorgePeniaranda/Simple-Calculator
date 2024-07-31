@@ -1,30 +1,5 @@
 import { InternalError } from "../errors/calculator-errors.mjs";
-import { isEmpty } from "../helpers/isEmpty.mjs";
-
-const transcriptions = {
-  '+': '+',
-  '-': '-',
-  '*': '×',
-  '/': '÷',
-  '=': '=',
-  '.': ',',
-  '0': '0',
-  '1': '1',
-  '2': '2',
-  '3': '3',
-  '4': '4',
-  '5': '5',
-  '6': '6',
-  '7': '7',
-  '8': '8',
-  '9': '9',
-  '(': '(',
-  '*(': '(',
-  ')': ')',
-  ')*': ')',
-  '**': '^',
-  '^': '^',
-};
+import { DOUBLE_CALCULATOR_TRANSCRIPTIONS, SIMPLE_CALCULATOR_TRANSCRIPTIONS } from "../data/calculator_transcriptions.mjs";
 
 /**
  * Convert equation to input text
@@ -39,15 +14,14 @@ export function fromCalculatorToInputText (equation) {
   let result = equation; 
 
   // Replace symbols with double symbols
-  result = result.replace("**", '^'); // Replace ** with ^
-  result = result.replace("*(", '('); // Replace *( with (
-  result = result.replace(")*", ')'); // Replace )* with )
+  for(const [key, value] of Object.entries(DOUBLE_CALCULATOR_TRANSCRIPTIONS)){
+    result = result.replace(key, value);
+  }
 
-  return result.replace(/./g, (char) => {
-    if(isEmpty(transcriptions[char])){
-      throw new InternalError('Character not found in transcriptions');
-    }
+  // Replace symbols with simple symbols
+  for(const [key, value] of Object.entries(SIMPLE_CALCULATOR_TRANSCRIPTIONS)){
+    result = result.replace(key, value);
+  }
 
-    return transcriptions[char] || char;
-  })
+  return result;
 }

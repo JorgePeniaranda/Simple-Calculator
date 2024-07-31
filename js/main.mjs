@@ -10,15 +10,16 @@ import { Calculator } from "./models/calculator.mjs";
 import { InputHandler } from "./models/input-handler.mjs";
 import { ShowErrorInNotification } from "./errors/handler.mjs";
 import { NotificationService } from "./services/notifications.mjs";
+import { BUTTON_CLASSNAMES, CURRENT_INPUT_ID, LAST_INPUT_ID } from "./constants/dom.mjs";
 
 // Instances
 const calculator = new Calculator();
 const history = new CalculatorHistory();
 
 // DOM
-const $buttons = document.querySelectorAll(".calculator__button");
-const $lastInput = document.getElementById("input__last-equation");
-const $currentInput = document.getElementById("input__current-equation");
+const $buttons = document.querySelectorAll(`.${BUTTON_CLASSNAMES}`);
+const $lastInput = document.getElementById(LAST_INPUT_ID);
+const $currentInput = document.getElementById(CURRENT_INPUT_ID);
 
 // Handlers
 const lastInputHandler = new InputHandler($lastInput, false);

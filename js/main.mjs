@@ -11,10 +11,14 @@ import { InputHandler } from "./models/input-handler.mjs";
 import { ShowErrorInNotification } from "./errors/handler.mjs";
 import { NotificationService } from "./services/notifications.mjs";
 import { BUTTON_CLASSNAMES, CURRENT_INPUT_ID, LAST_INPUT_ID } from "./constants/dom.mjs";
+import { LocalStorage } from "./services/storage.mjs";
+import { CALCULATOR_HISTORY_STORAGE_KEY } from "./constants/storage.mjs";
 
 // Instances
 const calculator = new Calculator();
-const history = new CalculatorHistory();
+const lastHistory = JSON.parse(localStorage.getItem(CALCULATOR_HISTORY_STORAGE_KEY)) ?? [];
+const history = new CalculatorHistory(lastHistory);
+const localStorageService = new LocalStorage();
 
 // DOM
 const $buttons = document.querySelectorAll(`.${BUTTON_CLASSNAMES}`);
@@ -49,7 +53,7 @@ $buttons.forEach((button) => {
         calculator.solve();
 
         // Add equation to history
-        history.addEquation(prevEquation);
+        handleHistory.push(prevEquation);
 
         // Update inputs
         UpdateInputs();
@@ -80,7 +84,7 @@ $buttons.forEach((button) => {
       }
       
       action();
-      currentInputHandler.changeInput(fromCalculatorToInputText(calculator.equation));
+      UpdateInputs(calculator.equation, "");
     } catch (error) {
       if(error instanceof ErrorOnTryToSolve){
         calculator.clearAll();
@@ -92,6 +96,8 @@ $buttons.forEach((button) => {
     }
   });
 });
+
+// MARK: Auxiliary functions
 
 function UpdateInputs(currentValue, lastValue){
   const currentText = currentValue ?? String(calculator.result);
@@ -107,4 +113,19 @@ function UpdateInputs(currentValue, lastValue){
 
   currentInputHandler.changeInput(fromCalculatorToInputText(currentText));
   lastInputHandler.changeInput(fromCalculatorToInputText(lastText));
+}
+
+const handleHistory = {
+  push(equation){
+    history.addEquation(equation);
+    localStorageService.setItem(CALCULATOR_HISTORY_STORAGE_KEY, JSON.stringify(history.history));
+  },
+  remove(){
+    throw new InternalError('Not implemented');
+  },
+  clear(){
+    history.clearHistory();
+    localStorageService.removeItem(CALCULATOR_HISTORY_STORAGE_KEY);
+    UpdateInputs("", "");
+  },
 }

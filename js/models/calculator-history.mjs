@@ -1,3 +1,5 @@
+import { CALCULATOR_ERRORS_MESSAGES } from "../messages/calculator-errors.mjs";
+
 export class CalculatorHistory{
   #history;
 
@@ -20,7 +22,7 @@ export class CalculatorHistory{
    */
   addEquation(equation){
     if(typeof equation !== 'string'){
-      throw new InternalError('Equation is not a string');
+      throw new InternalError(CALCULATOR_ERRORS_MESSAGES.EQUATION_NOT_STRING);
     }
 
     this.#history.push(equation);

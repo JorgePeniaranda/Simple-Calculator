@@ -2,6 +2,7 @@ import { CALCULATOR_OPERATIONS_WITH_DOUBLE_CHAR } from "../constants/calculator-
 import { CALCULATOR_DICTIONARY } from "../data/calculator-dictionary.mjs";
 import { EQUATIONS_SYMBOLS } from "../data/equations-symbols.mjs";
 import { ErrorOnTryToInput, ErrorOnTryToSolve } from "../errors/calculator-errors.mjs";
+import { CALCULATOR_ERRORS_MESSAGES } from "../messages/calculator-errors.mjs";
 
 export class Calculator{
   #result;
@@ -49,11 +50,11 @@ export class Calculator{
     const lastChar = this.#equation[this.#equation.length - 1];
 
     if(!EQUATIONS_SYMBOLS.includes(symbol)){
-      throw new ErrorOnTryToInput('Cannot add symbol, symbol is not in the allowed symbols');
+      throw new ErrorOnTryToInput(CALCULATOR_ERRORS_MESSAGES.CANNOT_ADD_SYMBOL_NOT_ALLOWED);
     }
 
     if(lastChar === CALCULATOR_DICTIONARY.openParenthesis){
-      throw new ErrorOnTryToInput('Cannot add symbol, last character is an open parenthesis');
+      throw new ErrorOnTryToInput(CALCULATOR_ERRORS_MESSAGES.CANNOT_ADD_SYMBOL_LAST_IS_OPEN_PARENTHESIS);
     }
 
     if(this.equation === ''){
@@ -75,7 +76,7 @@ export class Calculator{
     const lastChar = this.#equation[this.#equation.length - 1];
 
     if(lastChar === CALCULATOR_DICTIONARY.decimal){
-      throw new ErrorOnTryToInput('Cannot add symbol, last character is a decimal');
+      throw new ErrorOnTryToInput(CALCULATOR_ERRORS_MESSAGES.CANNOT_ADD_SYMBOL_LAST_IS_DECIMAL);
     }
 
     if(lastChar === CALCULATOR_DICTIONARY.openParenthesis){
@@ -126,7 +127,7 @@ export class Calculator{
    */
   addNumber(number){
     if(!Number.isInteger(number)){
-      throw new ErrorOnTryToInput('To add number, you must pass a number');
+      throw new ErrorOnTryToInput(CALCULATOR_ERRORS_MESSAGES.ADD_NUMBER_REQUIRES_NUMBER);
     }
 
     if(this.#equation === "0"){
@@ -149,10 +150,10 @@ export class Calculator{
   addDecimal(){
     if(this.#isLastCharSymbol()){
       if(this.#equation === ''){
-        throw new ErrorOnTryToInput('Cannot add decimal to empty equation');
+        throw new ErrorOnTryToInput(CALCULATOR_ERRORS_MESSAGES.CANNOT_ADD_DECIMAL_EMPTY_EQUATION);
       }
       
-      throw new ErrorOnTryToInput('Cannot add decimal, last character is a symbol');
+      throw new ErrorOnTryToInput(CALCULATOR_ERRORS_MESSAGES.CANNOT_ADD_DECIMAL_LAST_IS_SYMBOL);
     }
 
     this.#equation += CALCULATOR_DICTIONARY.decimal;
@@ -164,7 +165,7 @@ export class Calculator{
    */
   removeLastCharacter(){
     if (this.#equation === '') {
-      throw new ErrorOnTryToInput('Cannot remove last character from empty equation');
+      throw new ErrorOnTryToInput(CALCULATOR_DICTIONARY.CANNOT_REMOVE_LAST_CHARACTER_EMPTY_EQUATION);
     }
 
     if (CALCULATOR_OPERATIONS_WITH_DOUBLE_CHAR.includes(this.#equation.slice(-2))) { // If the last two characters are **
@@ -208,7 +209,7 @@ export class Calculator{
       this.#result = eval(this.#equation);
       this.#equation = this.#result.toString();
     } catch(_) {
-      throw new ErrorOnTryToSolve('Cannot solve equation');
+      throw new ErrorOnTryToSolve(CALCULATOR_DICTIONARY.CANNOT_SOLVE_EQUATION);
     }
   }
 }

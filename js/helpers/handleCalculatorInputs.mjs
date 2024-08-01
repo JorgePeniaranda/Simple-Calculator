@@ -1,5 +1,6 @@
 import { InternalError } from '../errors/calculator-errors.mjs';
 import { fromCalculatorToInputText } from '../mappers/fromEquationToInputText.mjs';
+import { CALCULATOR_ERRORS_MESSAGES } from "../messages/calculator-errors.mjs";
 
 /**
  * @typedef InputHandler
@@ -34,11 +35,11 @@ export function CreateHandlerInputs(currentInputHandler, lastInputHandler, calcu
     const lastText = lastValue !== undefined ? lastValue : history.getLastEquation();
   
     if(typeof currentText !== 'string'){
-      throw new InternalError('Current text is not a string');
+      throw new InternalError(CALCULATOR_ERRORS_MESSAGES.CURRENT_TEXT_NOT_STRING);
     }
   
     if(typeof lastText !== 'string'){
-      throw new InternalError('Last text is not a string');
+      throw new InternalError(CALCULATOR_ERRORS_MESSAGES.LAST_TEXT_NOT_STRING);
     }
 
     currentInputHandler.changeInput(fromCalculatorToInputText(currentText));

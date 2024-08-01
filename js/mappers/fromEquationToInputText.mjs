@@ -1,5 +1,6 @@
 import { InternalError } from "../errors/calculator-errors.mjs";
 import { DOUBLE_CALCULATOR_TRANSCRIPTIONS, SIMPLE_CALCULATOR_TRANSCRIPTIONS } from "../data/calculator_transcriptions.mjs";
+import { CALCULATOR_ERRORS_MESSAGES } from "../messages/calculator-errors.mjs";
 
 /**
  * Convert equation to input text
@@ -8,7 +9,7 @@ import { DOUBLE_CALCULATOR_TRANSCRIPTIONS, SIMPLE_CALCULATOR_TRANSCRIPTIONS } fr
  */
 export function fromCalculatorToInputText (equation) {
   if(typeof equation !== 'string'){
-    throw new InternalError('Equation is not a string');
+    throw new InternalError(CALCULATOR_ERRORS_MESSAGES.EQUATION_NOT_STRING);
   }
 
   let result = equation; 

@@ -1,4 +1,6 @@
 import { isEmpty } from "../helpers/isEmpty.mjs";
+import { CALCULATOR_ALERTS_MESSAGES } from "../messages/calculator-alerts.mjs";
+import { CALCULATOR_ERRORS_MESSAGES } from "../messages/calculator-errors.mjs";
 import { ErrorOnTryToInput, ErrorOnTryToShow, ErrorOnTryToSolve, InternalError } from "./calculator-errors.mjs";
 
 /**
@@ -14,28 +16,28 @@ import { ErrorOnTryToInput, ErrorOnTryToShow, ErrorOnTryToSolve, InternalError }
  */
 export function ShowErrorInNotification(error, notificationService){
   if(isEmpty(notificationService) || typeof notificationService !== 'object'){
-    throw new InternalError('Notification service is not an object');
+    throw new InternalError(CALCULATOR_ERRORS_MESSAGES.NOTIFICATION_SERVICE_NOT_OBJECT);
   }
 
   if(!(error instanceof Error) || isEmpty(error)){
-    return notificationService.error('Fatal Unknown Error', 'An error occurred. Please, contact the developer.')
+    return notificationService.error(CALCULATOR_ALERTS_MESSAGES.FATAL_UNKNOWN_ERROR, CALCULATOR_ERRORS_MESSAGES.AN_ERROR_OCCURRED_CONTACT_DEVELOPER)
   }
 
   if(isEmpty(error.message) || typeof error.message !== 'string'){
-    return notificationService.error('Fatal Error', 'An error occurred. Please, contact the developer.')
+    return notificationService.error(CALCULATOR_ALERTS_MESSAGES.FATAL_ERROR, CALCULATOR_ERRORS_MESSAGES.AN_ERROR_OCCURRED_CONTACT_DEVELOPER)
   }
 
   if(error instanceof InternalError || error instanceof ErrorOnTryToShow){
-    return notificationService.error('Internal Error', error.message)
+    return notificationService.error(CALCULATOR_ALERTS_MESSAGES.INTERNAL_ERROR, error.message)
   }
 
   if(error instanceof ErrorOnTryToInput){
-    return notificationService.warning('Input Error', error.message)
+    return notificationService.warning(CALCULATOR_ALERTS_MESSAGES.INPUT_ERROR, error.message)
   }
 
   if(error instanceof ErrorOnTryToSolve){
-    return notificationService.warning('Calculation Error', error.message)
+    return notificationService.warning(CALCULATOR_ALERTS_MESSAGES.CALCULATION_ERROR, error.message)
   }
 
-  return notificationService.warning("Error", error.message)
+  return notificationService.warning(CALCULATOR_ALERTS_MESSAGES.ERROR, error.message)
 }

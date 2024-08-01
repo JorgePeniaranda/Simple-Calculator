@@ -14,6 +14,7 @@ import { LocalStorage } from "./services/storage.mjs";
 import { CALCULATOR_HISTORY_STORAGE_KEY } from "./constants/storage.mjs";
 import { CreateHandlerInputs } from "./helpers/handleCalculatorInputs.mjs";
 import { CreateHandlerHistory } from "./helpers/handleCalculatorHistoryWithStorage.mjs";
+import { CALCULATOR_ERRORS_MESSAGES } from "./messages/calculator-errors.mjs";
 
 // Instances
 const calculator = new Calculator();
@@ -34,7 +35,7 @@ const handleHistory = CreateHandlerHistory(history, localStorageService);
 
 $buttons.forEach((button) => {
   if(!(button instanceof HTMLElement)){
-    throw new InternalError('Button is not an HTMLElement');
+    throw new InternalError(CALCULATOR_ERRORS_MESSAGES.BUTTON_NOT_HTML_ELEMENT);
   }
 
   button.addEventListener("click", (button) => {
@@ -42,14 +43,14 @@ $buttons.forEach((button) => {
       const textButton = button.target.textContent;
 
       if(typeof textButton !== 'string'){
-        throw new InternalError('Button text content is not a string');
+        throw new InternalError(CALCULATOR_ERRORS_MESSAGES.BUTTON_TEXT_NOT_STRING);
       }
 
       const buttonValue = textButton.trim();
       const calculatorAction = INPUT_DICTIONARY[buttonValue]
 
       if(typeof calculatorAction !== 'string'){
-        throw new InternalError('Button value is not a valid calculator action');
+        throw new InternalError(CALCULATOR_ERRORS_MESSAGES.BUTTON_VALUE_INVALID_ACTION);
       }
 
       // Handle solve action (=)
@@ -88,7 +89,7 @@ $buttons.forEach((button) => {
       );
 
       if(isEmpty(action) || typeof action !== 'function'){
-        throw new InternalError('Generated action is not a function');
+        throw new InternalError(CALCULATOR_ERRORS_MESSAGES.GENERATED_ACTION_NOT_FUNCTION);
       }
       
       action();

@@ -1,4 +1,5 @@
 import { ErrorOnTryToShow, InternalError } from "../errors/calculator-errors.mjs";
+import { CALCULATOR_ERRORS_MESSAGES } from "../messages/calculator-errors.mjs";
 
 export class InputHandler {
   #input;
@@ -10,7 +11,7 @@ export class InputHandler {
    */
   constructor(input, isNumberInput = false) {
     if (!(input instanceof HTMLElement)) {
-      throw new InternalError(`Cannot create InputHandler, invalid input`);
+      throw new InternalError(CALCULATOR_ERRORS_MESSAGES.CANNOT_CREATE_INPUT_HANDLER_INVALID_INPUT);
     }
 
     this.#input = input;
@@ -38,11 +39,11 @@ export class InputHandler {
     const isValidText = this.#isValidText(newText);
 
     if (!isValidText && this.#isNumberInput) {
-      throw new ErrorOnTryToShow(`Cannot change input, invalid text. Maybe you passed a string instead of a number`);
+      throw new ErrorOnTryToShow(CALCULATOR_ERRORS_MESSAGES.CANNOT_CHANGE_INPUT_INVALID_TEXT);
     }
     
     if (!isValidText) {
-      throw new ErrorOnTryToShow(`Cannot change input, invalid text`);
+      throw new ErrorOnTryToShow(CALCULATOR_ERRORS_MESSAGES.CANNOT_CHANGE_INPUT_INVALID_TEXT);
     }
 
     this.#input.value = newText;

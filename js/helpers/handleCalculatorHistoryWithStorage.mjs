@@ -1,5 +1,6 @@
 import { CALCULATOR_HISTORY_STORAGE_KEY } from "../constants/storage.mjs";
 import { InternalError } from "../errors/calculator-errors.mjs";
+import { CALCULATOR_ERRORS_MESSAGES } from "../messages/calculator-errors.mjs";
 
 /**
  * @typedef CalculatorHistory
@@ -34,7 +35,7 @@ export function CreateHandlerHistory(history, localStorageService){
       localStorageService.setItem(CALCULATOR_HISTORY_STORAGE_KEY, JSON.stringify(history.history));
     },
     remove(){
-      throw new InternalError('Not implemented');
+      throw new InternalError(CALCULATOR_ERRORS_MESSAGES.NOT_IMPLEMENTED);
     },
     clear(){
       history.clearHistory();

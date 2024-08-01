@@ -1,5 +1,5 @@
 import { InternalError } from "../errors/calculator-errors.mjs";
-import { DOUBLE_CALCULATOR_TRANSCRIPTIONS, SIMPLE_CALCULATOR_TRANSCRIPTIONS } from "../data/calculator_transcriptions.mjs";
+import { DOUBLE_CALCULATOR_TRANSCRIPTIONS, SIMPLE_CALCULATOR_TRANSCRIPTIONS } from "../data/calculator-transcriptions.mjs";
 import { CALCULATOR_ERRORS_MESSAGES } from "../messages/calculator-errors.mjs";
 
 /**

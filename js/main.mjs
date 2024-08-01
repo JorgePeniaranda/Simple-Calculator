@@ -33,75 +33,82 @@ const lastInputHandler = new InputHandler($lastInput, false);
 const handleInput = CreateHandlerInputs(currentInputHandler, lastInputHandler, calculator, history);
 const handleHistory = CreateHandlerHistory(history, localStorageService);
 
+/**
+ * Handle click event on button
+ * @param {MouseEvent} button
+ * @returns {void}
+ */
+function handleClickButton(button) {
+  try {
+    const textButton = button.target.textContent;
+
+    if(typeof textButton !== 'string'){
+      throw new InternalError(CALCULATOR_ERRORS_MESSAGES.BUTTON_TEXT_NOT_STRING);
+    }
+
+    const buttonValue = textButton.trim();
+    const calculatorAction = INPUT_DICTIONARY[buttonValue]
+
+    if(typeof calculatorAction !== 'string'){
+      throw new InternalError(CALCULATOR_ERRORS_MESSAGES.BUTTON_VALUE_INVALID_ACTION);
+    }
+
+    // Handle solve action (=)
+    if(calculatorAction === CALCULATOR_ACTIONS.solve){
+      const prevEquation = calculator.equation;
+
+      // Solve equation
+      calculator.solve();
+
+      // Add equation to history
+      handleHistory.push(prevEquation);
+
+      // Update inputs
+      handleInput();
+
+      return;
+    }
+    
+    // Handle clear action (AC)
+    if(calculatorAction === CALCULATOR_ACTIONS.clear){
+      // Clear calculator
+      calculator.clearAll();
+
+      // Update inputs
+      handleInput("", "");
+
+      return;
+    }
+
+    // Handle other actions
+    const action = generateCalculatorAction(
+      calculator,
+      calculatorAction, 
+      CALCULATOR_DICTIONARY[calculatorAction]
+    );
+
+    if(isEmpty(action) || typeof action !== 'function'){
+      throw new InternalError(CALCULATOR_ERRORS_MESSAGES.GENERATED_ACTION_NOT_FUNCTION);
+    }
+    
+    action();
+    handleInput(calculator.equation, "");
+  } catch (error) {
+    if(error instanceof ErrorOnTryToSolve){
+      calculator.clearAll();
+      handleInput("Error", "");
+    }
+    else {
+      ShowErrorInNotification(error, NotificationService);
+    }
+  }
+}
+
+// Add event listener to buttons
 $buttons.forEach((button) => {
   if(!(button instanceof HTMLElement)){
     throw new InternalError(CALCULATOR_ERRORS_MESSAGES.BUTTON_NOT_HTML_ELEMENT);
   }
 
-  button.addEventListener("click", (button) => {
-    try {
-      const textButton = button.target.textContent;
-
-      if(typeof textButton !== 'string'){
-        throw new InternalError(CALCULATOR_ERRORS_MESSAGES.BUTTON_TEXT_NOT_STRING);
-      }
-
-      const buttonValue = textButton.trim();
-      const calculatorAction = INPUT_DICTIONARY[buttonValue]
-
-      if(typeof calculatorAction !== 'string'){
-        throw new InternalError(CALCULATOR_ERRORS_MESSAGES.BUTTON_VALUE_INVALID_ACTION);
-      }
-
-      // Handle solve action (=)
-      if(calculatorAction === CALCULATOR_ACTIONS.solve){
-        const prevEquation = calculator.equation;
-
-        // Solve equation
-        calculator.solve();
-
-        // Add equation to history
-        handleHistory.push(prevEquation);
-
-        // Update inputs
-        console.log("result: " + calculator.result);
-        handleInput();
-
-        return;
-      }
-      
-      // Handle clear action (AC)
-      if(calculatorAction === CALCULATOR_ACTIONS.clear){
-        // Clear calculator
-        calculator.clearAll();
-
-        // Update inputs
-        handleInput("", "");
-
-        return;
-      }
-
-      // Handle other actions
-      const action = generateCalculatorAction(
-        calculator,
-        calculatorAction, 
-        CALCULATOR_DICTIONARY[calculatorAction]
-      );
-
-      if(isEmpty(action) || typeof action !== 'function'){
-        throw new InternalError(CALCULATOR_ERRORS_MESSAGES.GENERATED_ACTION_NOT_FUNCTION);
-      }
-      
-      action();
-      handleInput(calculator.equation, "");
-    } catch (error) {
-      if(error instanceof ErrorOnTryToSolve){
-        calculator.clearAll();
-        handleInput("Error", "");
-      }
-      else {
-        ShowErrorInNotification(error, NotificationService);
-      }
-    }
-  });
+  button.addEventListener("click", handleClickButton)
 });
